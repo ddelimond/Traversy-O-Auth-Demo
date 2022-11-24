@@ -1,3 +1,4 @@
+const path = require('path');
 // Expxress
 const express = require('express');
 // DOTENV
@@ -15,13 +16,16 @@ const morgan = require('morgan');
 const exphbs = require('express-handlebars');
 
 
+
+
+
 // if in the develpment enviorment have the application use  morgan 
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'))
 }
 
 
-// handlebars
+// Handlebars
 app.engine('.hbs', exphbs.engine(
     {
         defaultLayout: 'main',
@@ -35,6 +39,9 @@ app.set('view engine', '.hbs');
 
 app.use('/', require('./routes/index'))
 app.use('/dashboard', require('./routes/index'))
+
+// Static folder
+app.use(express.static(path.join(__dirname, 'public')))
 
 
 

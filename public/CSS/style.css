@@ -1,0 +1,22 @@
+.login-container {
+    width: 400px;
+    margin-top: 50px;
+    text-align: center;
+}
+
+p {
+    margin: 10px 0px !important;
+}
+
+.google {
+    width: 10%;
+}
+
+.red.darken-1 {
+    background-color: #c81c1c !important;
+    transition: all .4s ease;
+}
+
+.red.darken-1:hover {
+    background-color: #d41e1e !important;
+}

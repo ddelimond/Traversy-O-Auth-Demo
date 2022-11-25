@@ -13,7 +13,14 @@ const PORT = process.env.PORT || 8000;
 const connectToDb = require('./config/db');
 // morgan
 const morgan = require('morgan');
+// handlebars
 const exphbs = require('express-handlebars');
+// passport
+const passport = require('passport');
+// passport config
+require('./config/passport')(passport)
+// Express session
+const session = require('express-session')
 
 
 
@@ -24,8 +31,7 @@ if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'))
 }
 
-
-// Handlebars
+// Handlebars ((get from npmjs, just type express-handlebars ) )
 app.engine('.hbs', exphbs.engine(
     {
         defaultLayout: 'main',
@@ -35,10 +41,26 @@ app.engine('.hbs', exphbs.engine(
 app.set('view engine', '.hbs');
 
 
+// Session- Middleware/ must be above passport middleware (get from npmjs, just type express-handlebars)
+app.use(session(
+    {
+        secret: 'keyboard cat',
+        resave: false,
+        saveUninitialized: false,
+        cookie: { secure: true }
+    }
+))
+
+// Passport Middleware
+app.use(passport.initialize())
+app.use(passport.session())
+
+
 // Routes
 
 app.use('/', require('./routes/index'))
 app.use('/dashboard', require('./routes/index'))
+app.use('/auth', require('./routes/auth'))
 
 // Static folder
 app.use(express.static(path.join(__dirname, 'public')))

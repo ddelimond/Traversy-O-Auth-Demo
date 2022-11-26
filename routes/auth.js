@@ -1,5 +1,5 @@
 const express = require('express');
-const passport = require('passport')
+const passport = require('passport');
 // creation of router 
 const router = express.Router()
 
@@ -16,7 +16,17 @@ router.get('/google/callback', passport.authenticate('google', { failureRedirect
 )
 
 
-
-
+// @desc  logout user 
+// @route GET /auth/logout
+// change: passport 0.6 requires logout to be async
+router.get('/logout', (req, res, next) => {
+    req.logout(function (err) {
+        if (err) { return next(err) }
+        res.redirect('/')
+    })
+})
 
 module.exports = router
+
+
+

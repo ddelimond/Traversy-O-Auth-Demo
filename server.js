@@ -23,6 +23,8 @@ require('./config/passport')(passport)
 const session = require('express-session')
 
 
+// Connect to Mongo Database
+connectToDb()
 
 
 
@@ -47,7 +49,6 @@ app.use(session(
         secret: 'keyboard cat',
         resave: false,
         saveUninitialized: false,
-        cookie: { secure: true }
     }
 ))
 
@@ -57,23 +58,12 @@ app.use(passport.session())
 
 
 // Routes
-
 app.use('/', require('./routes/index'))
 app.use('/dashboard', require('./routes/index'))
 app.use('/auth', require('./routes/auth'))
 
 // Static folder
 app.use(express.static(path.join(__dirname, 'public')))
-
-
-
-
-
-
-
-// Connect to Mongo Database
-connectToDb()
-
 
 // Starts Server
 app.listen(PORT, () => {

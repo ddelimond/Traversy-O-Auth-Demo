@@ -1,11 +1,14 @@
 const express = require('express');
-
 // creation of router 
 const router = express.Router()
+// Auth middleware
+const { ensureAuth, ensureGuest } = require('../middleware/auth')
+
+
 
 // @desc  login/landing page 
 // @route GET / 
-router.get('/', (req, res) => {
+router.get('/', ensureGuest, (req, res) => {
     res.render('login', {
         layout: 'login',
     })
@@ -13,8 +16,9 @@ router.get('/', (req, res) => {
 
 // @desc  Dashboard 
 // @route GET /dashboard 
-router.get('/dashboard', (req, res) => {
-    res.render('dashboard.hbs')
+router.get('/dashboard', ensureAuth, (req, res) => {
+    console.log(req.user)
+    res.render('dashboard')
 })
 
 
@@ -22,3 +26,5 @@ router.get('/dashboard', (req, res) => {
 
 
 module.exports = router
+
+
